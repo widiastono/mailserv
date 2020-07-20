@@ -28,10 +28,7 @@ ln -s /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 sed -i 's/#Port 22$/Port '$PORT_SSH'/' /etc/ssh/sshd_config
 sed -i 's/#PermitRootLogin without-password/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i 's/UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
-if ! grep -q 'UseDNS no' /etc/ssh/sshd_config
-then
-	echo 'UseDNS no' >> /etc/ssh/sshd_config
-fi
+sed -i 's/#UseDNS no/UseDNS no/' /etc/ssh/sshd_config
 
 service ssh restart 
 
