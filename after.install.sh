@@ -46,6 +46,6 @@ update-rc.d -f rpcbind remove
 apt purge -y exim4-config exim4-daemon-light
 
 ### vim beauty
-sh vim.install.sh
+bash vim.install.sh
 sudo -u $USER sh vim.install.sh
 

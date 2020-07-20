@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ### after install 
-sh after.install.sh
+bash after.install.sh
 
 ### bind install
-sh bind.install.sh
+bash bind.install.sh
 
 ### NGiNX PHP MariaDB install
 #sh lemper.install.sh
