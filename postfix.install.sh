@@ -14,6 +14,7 @@ sudo sed -i 's/subdomain.example.com/'$FQDN'/' /etc/postfix/main.cf
 groupadd -g 2000 vmail
 useradd -g vmail -u 2000 vmail -d /var/vmail -m
 
+cp -rpv dovecot/* /etc/dovecot/
 chgrp vmail /etc/dovecot/dovecot.conf
 chmod g+r /etc/dovecot/dovecot.conf
 /etc/init.d/dovecot restart
@@ -25,23 +26,24 @@ chmod go= /etc/dovecot/dovecot-sql.conf
 cd /var/www/html/
 
 git clone https://github.com/opensolutions/ViMbAdmin.git 
-mv ViMbAdmin/* $FQDN_ADMIN/
-composer install --prefer-dist --no-dev
+cp -rpv ViMbAdmin/* $FQDN_ADMIN/
+cd /var/www/html/$FQDN_ADMIN
+sudo -u www-data composer install --prefer-dist --no-dev
 
 chown -R www-data:www-data /var/www/html/$FQDN_ADMIN
 cp /var/www/html/$FQDN_ADMIN/public/.htaccess.dist /var/www/html/$FQDN_ADMIN/public/.htaccess
 
 mysql -u root -e "GRANT ALL PRIVILEGES ON $MAIL_DB.* TO $MAIL_USER@localhost IDENTIFIED BY '$MAIL_PASS'; 
     FLUSH PRIVILEGES;
-    CREATE DATABASE $MAIL_DB;"
+    CREATE DATABASE IF NOT EXISTS $MAIL_DB;"
 
-cp /var/www/html/$FQDN_ADMIN/application/configs/application.ini.dst /var/www/html/$FQDN_ADMIN/application/configs/application.ini
+cp /var/www/html/$FQDN_ADMIN/application/configs/application.ini.dist /var/www/html/$FQDN_ADMIN/application/configs/application.ini
 
-sudo sed -i  "s/resources.doctrine2.connection.options.driver.*$/resources.doctrine2.connection.options.driver='pdo_mysql'/"  application/configs/application.ini.dist
-sudo sed -i  "s/resources.doctrine2.connection.options.driver.*$/resources.doctrine2.connection.options.dbname='"$MAIL_DB"'/"  application/configs/application.ini.dist
-sudo sed -i  "s/resources.doctrine2.connection.options.driver.*$/resources.doctrine2.connection.options.user='"$MAIL_USER"'/"  application/configs/application.ini.dist
-sudo sed -i  "s/resources.doctrine2.connection.options.driver.*$/resources.doctrine2.connection.options.password='"$MAIL_PASS"'/"  application/configs/application.ini.dist
-sudo sed -i  "s/resources.doctrine2.connection.options.driver.*$/resources.doctrine2.connection.options.host='localhost'/"  application/configs/application.ini.dist
+sudo sed -i  "s/resources.doctrine2.connection.options.driver.*$/resources.doctrine2.connection.options.driver='pdo_mysql'/"  /var/www/html/$FQDN_ADMIN/application/configs/application.ini
+sudo sed -i  "s/resources.doctrine2.connection.options.dbname.*$/resources.doctrine2.connection.options.dbname='"$MAIL_DB"'/"  /var/www/html/$FQDN_ADMIN/application/configs/application.ini
+sudo sed -i  "s/resources.doctrine2.connection.options.user.*$/resources.doctrine2.connection.options.user='"$MAIL_USER"'/"  /var/www/html/$FQDN_ADMIN/application/configs/application.ini
+sudo sed -i  "s/resources.doctrine2.connection.options.password.*$/resources.doctrine2.connection.options.password='"$MAIL_PASS"'/"  /var/www/html/$FQDN_ADMIN/application/configs/application.ini
+sudo sed -i  "s/resources.doctrine2.connection.options.host.*$/resources.doctrine2.connection.options.host='localhost'/"  /var/www/html/$FQDN_ADMIN/application/configs/application.ini
 
 cd /var/www/html/$FQDN_ADMIN
 ./bin/doctrine2-cli.php orm:schema-tool:create
