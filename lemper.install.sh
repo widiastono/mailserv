@@ -29,8 +29,8 @@ sudo apt install -y nginx
 sudo cp nginx/default /etc/nginx/sites-available/$FQDN
 sudo sed -i 's/server_name _/server_name '$FQDN'/' /etc/nginx/sites-available/$FQDN
 sudo sed -i 's/php7.3-fpm.sock/php7.3-fpm_'$FQDN'.sock/' /etc/nginx/sites-available/$FQDN
-sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN';' /etc/nginx/sites-available/$FQDN
-sudo ln -s /etc/nginx/sites-available/$FQDN /etc/nginx/sites-enable/$FQDN
+sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN';/' /etc/nginx/sites-available/$FQDN
+sudo ln -s /etc/nginx/sites-available/$FQDN /etc/nginx/sites-enabled/$FQDN
 mkdir /var/www/html/$FQDN 
 echo "<?php phpinfo(); ?>" > /var/www/html/$FQDN/info.php
 chown -R www-data:www-data /var/www/html/$FQDN
@@ -38,8 +38,8 @@ chown -R www-data:www-data /var/www/html/$FQDN
 sudo cp nginx/default /etc/nginx/sites-available/$FQDN_ADMIN
 sudo sed -i 's/server_name _/server_name '$FQDN_ADMIN'/' /etc/nginx/sites-available/$FQDN_ADMIN
 sudo sed -i 's/php7.3-fpm.sock/php7.3-fpm_'$FQDN_ADMIN'.sock/' /etc/nginx/sites-available/$FQDN_ADMIN
-sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN_ADMIN';' /etc/nginx/sites-available/$FQDN_ADMIN
-sudo ln -s /etc/nginx/sites-available/$FQDN_ADMIN /etc/nginx/sites-enable/$FQDN_ADMIN
+sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN_ADMIN';/' /etc/nginx/sites-available/$FQDN_ADMIN
+sudo ln -s /etc/nginx/sites-available/$FQDN_ADMIN /etc/nginx/sites-enabled/$FQDN_ADMIN
 mkdir /var/www/html/$FQDN_ADMIN
 echo "<?php phpinfo(); ?>" > /var/www/html/$FQDN_ADMIN/info.php
 chown -R www-data:www-data /var/www/html/$FQDN_ADMIN
