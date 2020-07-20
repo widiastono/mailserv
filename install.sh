@@ -7,7 +7,7 @@ bash after.install.sh
 bash bind.install.sh
 
 ### NGiNX PHP MariaDB install
-#sh lemper.install.sh
+bash lemper.install.sh
 
 ### mail server install
-#sh postfix.install.sh
+#bash postfix.install.sh
