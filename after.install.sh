@@ -1,3 +1,6 @@
+#!/bin/bash
+source config.sh 
+
 ### update repositories
 apt-get update -y
 
@@ -40,7 +43,7 @@ service rpcbind stop
 update-rc.d -f rpcbind remove
 
 ### remove exim4
-apt purge exim4-config exim4-daemon-light
+apt purge -y exim4-config exim4-daemon-light
 
 ### vim beauty
 sh vim.install.sh
