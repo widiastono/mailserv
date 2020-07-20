@@ -1,3 +1,6 @@
+#!/bin/bash
+source config.sh 
+
 ### install mariadb-server
 apt install -y mariadb-server
 
