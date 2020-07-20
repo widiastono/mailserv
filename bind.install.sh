@@ -1,5 +1,4 @@
 #!/bin/bash
-source config.sh 
 
 ### install bind9 as dns resolver
 apt install -y bind9 

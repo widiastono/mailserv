@@ -1,5 +1,4 @@
 #!/bin/bash
-source config.sh 
 
 ### update repositories
 apt-get update -y
