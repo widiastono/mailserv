@@ -6,7 +6,7 @@ apt-get update -y
 
 ### install needed packaged for daily usage
 apt-get install -y net-tools ntp sysstat iptraf traceroute tcptraceroute pktstat bwm-ng whois httperf mailutils lynx \
-nast dsniff build-essential tcpdump sudo curl vim dnsutils mailutils
+nast dsniff build-essential tcpdump sudo curl vim dnsutils mailutils composer
 
 ### adding $USER to sudo group
 usermod -G sudo $USER
@@ -46,3 +46,7 @@ apt purge -y exim4-config exim4-daemon-light
 bash vim.install.sh
 sudo -u $USER sh vim.install.sh
 
+### shell config
+sudo sed -i 's/\\h/$(hostname -f)/' /home/$USER/.bashrc 
+cp /home/$USER/.bashrc /root/.bashrc
+sudo sed -i 's/01;32m/01;31m/' /root/.bashrc

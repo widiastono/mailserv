@@ -26,14 +26,32 @@ sudo service php7.3-fpm restart
 
 ### NGiNX
 sudo apt install -y nginx
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig
-sudo cp default /etc/nginx/sites-available/default
-sudo sed -i 's/server_name _/server_name '$FQDN'/' /etc/nginx/sites-available/default
-sudo sed -i 's/php7.3-fpm.sock/php7.3-fpm_'$SUBDOMAIN'.sock/' /etc/nginx/sites-available/default
-sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN';' /etc/nginx/sites-available/default
+sudo cp nginx/default /etc/nginx/sites-available/$FQDN
+sudo sed -i 's/server_name _/server_name '$FQDN'/' /etc/nginx/sites-available/$FQDN
+sudo sed -i 's/php7.3-fpm.sock/php7.3-fpm_'$FQDN'.sock/' /etc/nginx/sites-available/$FQDN
+sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN';' /etc/nginx/sites-available/$FQDN
+sudo ln -s /etc/nginx/sites-available/$FQDN /etc/nginx/sites-enable/$FQDN
 mkdir /var/www/html/$FQDN 
 echo "<?php phpinfo(); ?>" > /var/www/html/$FQDN/info.php
 chown -R www-data:www-data /var/www/html/$FQDN
+
+sudo cp nginx/default /etc/nginx/sites-available/$FQDN_ADMIN
+sudo sed -i 's/server_name _/server_name '$FQDN_ADMIN'/' /etc/nginx/sites-available/$FQDN_ADMIN
+sudo sed -i 's/php7.3-fpm.sock/php7.3-fpm_'$FQDN_ADMIN'.sock/' /etc/nginx/sites-available/$FQDN_ADMIN
+sudo sed -i 's/root \/var\/www\/html;/root \/var\/www\/html\/'$FQDN_ADMIN';' /etc/nginx/sites-available/$FQDN_ADMIN
+sudo ln -s /etc/nginx/sites-available/$FQDN_ADMIN /etc/nginx/sites-enable/$FQDN_ADMIN
+mkdir /var/www/html/$FQDN_ADMIN
+echo "<?php phpinfo(); ?>" > /var/www/html/$FQDN_ADMIN/info.php
+chown -R www-data:www-data /var/www/html/$FQDN_ADMIN
+
+### SSL domain & subdomain
+apt install -y certbot python3-certbot-nginx
+
+### configure ssl cert & key from letsencrypt
+sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email $EMAIL_PIC -d $FQDN
+
+### configure ssl cert & key from letsencrypt ADMIN
+sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email $EMAIL_PIC -d $FQDN_ADMIN
 
 sudo service nginx restart
 
