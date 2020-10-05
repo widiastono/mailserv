@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### domain & site
-DOMAIN=widiastono.my.id
+DOMAIN=karanganyarkab.go.id
 SUBDOMAIN=mail
 FQDN=$SUBDOMAIN.$DOMAIN
 FQDN_ADMIN=admin.$DOMAIN
@@ -15,4 +15,4 @@ MAIL_PASS='Vm41lOnly'
 ### local server
 USER=widiastono
 TIMEZONE="Asia/Jakarta"
-PORT_SSH=22
+PORT_SSH=2277
